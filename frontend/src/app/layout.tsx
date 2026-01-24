@@ -1,6 +1,18 @@
 import type { Metadata } from "next";
 import { Inter, Roboto } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/providers/theme-provider";
+import { QueryProvider } from "@/providers/query-provider";
+import {
+  FloatingPhone,
+  ZaloButton,
+  StickyContactModal,
+  ExitIntent,
+  MobileBottomBar,
+} from "@/components/widgets";
+import { GoogleAnalytics } from "@/components/analytics";
+import { OrganizationJsonLd } from "@/components/seo";
+import { SkipToContent } from "@/components/common";
 import "./globals.css";
 
 const inter = Inter({
@@ -81,11 +93,33 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" suppressHydrationWarning>
+      <head>
+        <OrganizationJsonLd />
+        <GoogleAnalytics />
+      </head>
       <body
         className={`${inter.variable} ${roboto.variable} font-sans antialiased`}
       >
-        {children}
-        <Toaster />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <QueryProvider>
+            <SkipToContent />
+            {children}
+
+            {/* Floating Widgets */}
+            <FloatingPhone />
+            <ZaloButton />
+            <StickyContactModal />
+            <ExitIntent />
+            <MobileBottomBar />
+
+            <Toaster />
+          </QueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

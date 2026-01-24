@@ -1,0 +1,89 @@
+{
+  "kind": "collectionType",
+  "collectionName": "leads",
+  "info": {
+    "singularName": "lead",
+    "pluralName": "leads",
+    "displayName": "Lead",
+    "description": "Customer lead/inquiry"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email"
+    },
+    "interestedCar": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::car.car"
+    },
+    "message": {
+      "type": "text"
+    },
+    "budget": {
+      "type": "string"
+    },
+    "source": {
+      "type": "enumeration",
+      "enum": ["contact-form", "test-drive", "quote-request", "call-button"]
+    },
+    "preferredContactTime": {
+      "type": "enumeration",
+      "enum": ["morning", "afternoon", "evening"]
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["new", "contacted", "qualified", "converted", "lost"],
+      "default": "new"
+    },
+    "utmSource": {
+      "type": "string"
+    },
+    "utmMedium": {
+      "type": "string"
+    },
+    "utmCampaign": {
+      "type": "string"
+    },
+    "utmContent": {
+      "type": "string"
+    },
+    "utmTerm": {
+      "type": "string"
+    },
+    "ipAddress": {
+      "type": "string"
+    },
+    "userAgent": {
+      "type": "text"
+    },
+    "referrer": {
+      "type": "string"
+    },
+    "landingPage": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "richtext"
+    },
+    "followUpDate": {
+      "type": "date"
+    },
+    "assignedTo": {
+      "type": "string"
+    },
+    "contactedAt": {
+      "type": "datetime"
+    }
+  }
+}

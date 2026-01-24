@@ -1,0 +1,86 @@
+{
+  "collectionName": "components_car_specs",
+  "info": {
+    "displayName": "Specifications",
+    "icon": "cog",
+    "description": "Car specifications component"
+  },
+  "options": {},
+  "attributes": {
+    "engine": {
+      "type": "string"
+    },
+    "power": {
+      "type": "string"
+    },
+    "torque": {
+      "type": "string"
+    },
+    "fuelConsumption": {
+      "type": "string"
+    },
+    "topSpeed": {
+      "type": "string"
+    },
+    "acceleration": {
+      "type": "string"
+    },
+    "length": {
+      "type": "integer"
+    },
+    "width": {
+      "type": "integer"
+    },
+    "height": {
+      "type": "integer"
+    },
+    "wheelbase": {
+      "type": "integer"
+    },
+    "groundClearance": {
+      "type": "integer"
+    },
+    "curbWeight": {
+      "type": "integer"
+    },
+    "seats": {
+      "type": "integer"
+    },
+    "fuelTankCapacity": {
+      "type": "integer"
+    },
+    "trunkCapacity": {
+      "type": "integer"
+    },
+    "driveType": {
+      "type": "string"
+    },
+    "suspension": {
+      "type": "text"
+    },
+    "brakes": {
+      "type": "string"
+    },
+    "tires": {
+      "type": "string"
+    },
+    "airbags": {
+      "type": "integer"
+    },
+    "safetyFeatures": {
+      "type": "json"
+    },
+    "infotainment": {
+      "type": "string"
+    },
+    "speakers": {
+      "type": "integer"
+    },
+    "climateControl": {
+      "type": "string"
+    },
+    "other": {
+      "type": "json"
+    }
+  }
+}
