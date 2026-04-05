@@ -6,8 +6,8 @@ import { vi } from 'date-fns/locale'
  * between Node.js (server) and browser (client).
  * e.g. 1500000 → "1.500.000 ₫"
  */
-export function formatPrice(price: number): string {
-  const formatted = Math.round(price)
+export function formatPrice(price: number | string): string {
+  const formatted = Math.round(Number(price))
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
   return `${formatted} ₫`

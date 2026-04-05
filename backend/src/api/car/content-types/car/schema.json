@@ -28,11 +28,11 @@
       "inversedBy": "cars"
     },
     "price": {
-      "type": "decimal",
+      "type": "biginteger",
       "required": true
     },
     "pricePromo": {
-      "type": "decimal"
+      "type": "biginteger"
     },
     "year": {
       "type": "integer",

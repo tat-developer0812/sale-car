@@ -37,8 +37,8 @@ export interface Car {
   name: string
   slug: string
   brand: StrapiRelation<Brand & { id?: number }>
-  price: number
-  pricePromo?: number
+  price: number | string
+  pricePromo?: number | string
   year: number
   status: 'available' | 'sold' | 'coming-soon'
   stockCount: number
