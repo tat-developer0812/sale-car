@@ -2,8 +2,8 @@ export const siteConfig = {
   name: process.env.NEXT_PUBLIC_SITE_NAME || "VuKia",
   description:
     "VuKia - Chuyên tư vấn mua bán xe KIA, Mazda chính hãng tại Gò Vấp, TP.HCM. Hỗ trợ trả góp lên đến 80%, bảo hành chính hãng. Liên hệ 0931.456.204 để được tư vấn miễn phí!",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-  ogImage: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/og-image.jpg`,
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://oto-auto-premium.com",
+  ogImage: `${process.env.NEXT_PUBLIC_SITE_URL || "https://oto-auto-premium.com"}/og-image.jpg`,
   links: {
     facebook: "https://facebook.com/vukia.vn",
     youtube: "https://youtube.com/@vukia",
