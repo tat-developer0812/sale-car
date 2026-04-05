@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -13,7 +14,7 @@ import {
 } from '@/components/ui/select'
 import { Brand } from '@/types/brand'
 import { CAR_CATEGORIES, FUEL_TYPES, TRANSMISSION_TYPES } from '@/lib/constants'
-import { X } from 'lucide-react'
+import { X, SlidersHorizontal, ChevronDown } from 'lucide-react'
 
 interface CarFilterProps {
   brands: (Brand & { id: number })[]
@@ -48,13 +49,14 @@ const priceRanges = [
 ]
 
 export function CarFilter({ brands }: CarFilterProps) {
+  const [mobileOpen, setMobileOpen] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const currentBrand = searchParams.get('brand') || ''
-  const currentCategory = searchParams.get('category') || ''
-  const currentFuelType = searchParams.get('fuelType') || ''
-  const currentTransmission = searchParams.get('transmission') || ''
+  const currentBrand = searchParams.get('brand') || 'all'
+  const currentCategory = searchParams.get('category') || 'all'
+  const currentFuelType = searchParams.get('fuelType') || 'all'
+  const currentTransmission = searchParams.get('transmission') || 'all'
   const currentMinPrice = searchParams.get('minPrice') || ''
   const currentMaxPrice = searchParams.get('maxPrice') || ''
 
@@ -68,7 +70,7 @@ export function CarFilter({ brands }: CarFilterProps) {
 
   const updateFilter = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString())
-    if (value) {
+    if (value && value !== 'all') {
       params.set(key, value)
     } else {
       params.delete(key)
@@ -83,7 +85,7 @@ export function CarFilter({ brands }: CarFilterProps) {
 
   const handlePriceRange = (rangeIndex: string) => {
     const params = new URLSearchParams(searchParams.toString())
-    if (rangeIndex === '') {
+    if (rangeIndex === 'all') {
       params.delete('minPrice')
       params.delete('maxPrice')
     } else {
@@ -107,21 +109,35 @@ export function CarFilter({ brands }: CarFilterProps) {
     const index = priceRanges.findIndex(
       (r) => r.min === min && r.max === max
     )
-    return index >= 0 ? index.toString() : ''
+    return index >= 0 ? index.toString() : 'all'
   }
 
   return (
     <div className="rounded-lg border p-4">
       <div className="flex items-center justify-between">
         <h3 className="font-semibold">Bộ lọc</h3>
-        {hasActiveFilters && (
-          <Button variant="ghost" size="sm" onClick={clearFilters}>
-            <X className="mr-1 h-4 w-4" />
-            Xóa lọc
+        <div className="flex items-center gap-2">
+          {hasActiveFilters && (
+            <Button variant="ghost" size="sm" onClick={clearFilters}>
+              <X className="mr-1 h-4 w-4" />
+              Xóa lọc
+            </Button>
+          )}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="lg:hidden"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-expanded={mobileOpen}
+          >
+            <SlidersHorizontal className="mr-1 h-4 w-4" />
+            {mobileOpen ? 'Ẩn' : 'Mở'}
+            <ChevronDown className={`ml-1 h-3 w-3 transition-transform ${mobileOpen ? 'rotate-180' : ''}`} />
           </Button>
-        )}
+        </div>
       </div>
 
+      <div className={`${mobileOpen ? 'block' : 'hidden'} lg:block`}>
       <Separator className="my-4" />
 
       {/* Brand Filter */}
@@ -132,7 +148,7 @@ export function CarFilter({ brands }: CarFilterProps) {
             <SelectValue placeholder="Tất cả thương hiệu" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Tất cả thương hiệu</SelectItem>
+            <SelectItem value="all">Tất cả thương hiệu</SelectItem>
             {brands.map((brand) => (
               <SelectItem key={brand.id} value={brand.slug}>
                 {brand.name}
@@ -152,7 +168,7 @@ export function CarFilter({ brands }: CarFilterProps) {
             <SelectValue placeholder="Tất cả dòng xe" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Tất cả dòng xe</SelectItem>
+            <SelectItem value="all">Tất cả dòng xe</SelectItem>
             {CAR_CATEGORIES.map((cat) => (
               <SelectItem key={cat} value={cat}>
                 {categoryLabels[cat] || cat}
@@ -172,7 +188,7 @@ export function CarFilter({ brands }: CarFilterProps) {
             <SelectValue placeholder="Tất cả mức giá" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Tất cả mức giá</SelectItem>
+            <SelectItem value="all">Tất cả mức giá</SelectItem>
             {priceRanges.map((range, index) => (
               <SelectItem key={index} value={index.toString()}>
                 {range.label}
@@ -192,7 +208,7 @@ export function CarFilter({ brands }: CarFilterProps) {
             <SelectValue placeholder="Tất cả" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Tất cả</SelectItem>
+            <SelectItem value="all">Tất cả</SelectItem>
             {FUEL_TYPES.map((fuel) => (
               <SelectItem key={fuel} value={fuel}>
                 {fuelLabels[fuel] || fuel}
@@ -212,7 +228,7 @@ export function CarFilter({ brands }: CarFilterProps) {
             <SelectValue placeholder="Tất cả" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Tất cả</SelectItem>
+            <SelectItem value="all">Tất cả</SelectItem>
             {TRANSMISSION_TYPES.map((trans) => (
               <SelectItem key={trans} value={trans}>
                 {transmissionLabels[trans] || trans}
@@ -220,6 +236,7 @@ export function CarFilter({ brands }: CarFilterProps) {
             ))}
           </SelectContent>
         </Select>
+      </div>
       </div>
     </div>
   )

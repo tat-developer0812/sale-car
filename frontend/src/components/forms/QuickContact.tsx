@@ -82,7 +82,7 @@ export function QuickContact({ carId, carName }: QuickContactProps) {
       })
 
       form.reset()
-    } catch (error) {
+    } catch {
       toast.error('Có lỗi xảy ra', {
         description: 'Vui lòng thử lại hoặc gọi điện trực tiếp cho chúng tôi.',
       })

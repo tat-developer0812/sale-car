@@ -85,8 +85,12 @@ export const footerNav = {
   ],
   support: [
     {
-      title: "Hỗ trợ khách hàng",
-      href: "/ho-tro",
+      title: "Mua xe trả góp",
+      href: "/tra-gop",
+    },
+    {
+      title: "Khuyến mãi",
+      href: "/khuyen-mai",
     },
     {
       title: "Chính sách bảo hành",
@@ -95,10 +99,6 @@ export const footerNav = {
     {
       title: "Chính sách đổi trả",
       href: "/chinh-sach-doi-tra",
-    },
-    {
-      title: "Hướng dẫn mua xe trả góp",
-      href: "/huong-dan-tra-gop",
     },
   ],
   legal: [

@@ -24,7 +24,7 @@ const navItems = [
   {
     icon: MessageSquare,
     label: 'Zalo',
-    href: `https://zalo.me/${siteConfig.links.zalo || siteConfig.contact.phone.replace(/\s/g, '')}`,
+    href: siteConfig.links.zalo || `https://zalo.me/${siteConfig.contact.phone.replace(/\s/g, '')}`,
     color: 'text-blue-600',
     external: true,
   },

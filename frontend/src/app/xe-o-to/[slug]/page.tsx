@@ -13,6 +13,7 @@ import { QuickContact } from '@/components/forms/QuickContact'
 import { CarJsonLd } from '@/components/seo/CarJsonLd'
 import { getCarBySlug, getCarSlugs } from '@/lib/api/cars'
 import { formatPrice } from '@/lib/format'
+import { extractRelation } from '@/lib/strapi'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -22,7 +23,7 @@ export async function generateStaticParams() {
   try {
     const slugs = await getCarSlugs()
     return slugs.map((slug) => ({ slug }))
-  } catch (error) {
+  } catch {
     return []
   }
 }
@@ -41,17 +42,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
     const title = `${car.name} ${car.year} - ${formatPrice(car.pricePromo || car.price)}`
 
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+
     return {
       title,
       description: car.shortDescription || car.seo?.metaDescription,
       keywords: car.seo?.keywords,
+      alternates: {
+        canonical: `${siteUrl}/xe-o-to/${slug}`,
+      },
       openGraph: {
         title,
         description: car.shortDescription,
         type: 'website',
+        url: `${siteUrl}/xe-o-to/${slug}`,
       },
     }
-  } catch (error) {
+  } catch {
     return {
       title: 'Không tìm thấy xe',
     }
@@ -73,7 +80,9 @@ export default async function CarDetailPage({ params }: PageProps) {
     notFound()
   }
 
-  const brandName = car.brand?.data?.attributes?.name || ''
+  const brand = extractRelation(car.brand)
+  const brandName = brand?.name || ''
+  const brandSlug = brand?.slug || ''
 
   return (
     <>
@@ -85,7 +94,7 @@ export default async function CarDetailPage({ params }: PageProps) {
             items={[
               { title: 'Xe Ô Tô', href: '/xe-o-to' },
               ...(brandName
-                ? [{ title: brandName, href: `/thuong-hieu/${car.brand?.data?.attributes?.slug}` }]
+                ? [{ title: brandName, href: `/thuong-hieu/${brandSlug}` }]
                 : []),
               { title: car.name },
             ]}

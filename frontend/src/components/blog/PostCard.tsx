@@ -21,11 +21,11 @@ const categoryLabels: Record<string, string> = {
 }
 
 const categoryColors: Record<string, string> = {
-  review: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-  comparison: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
-  guide: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-  news: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300',
-  promotion: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+  review: 'bg-blue-100 text-blue-800',
+  comparison: 'bg-purple-100 text-purple-800',
+  guide: 'bg-green-100 text-green-800',
+  news: 'bg-orange-100 text-orange-800',
+  promotion: 'bg-red-100 text-red-800',
 }
 
 export function PostCard({ post, variant = 'default' }: PostCardProps) {

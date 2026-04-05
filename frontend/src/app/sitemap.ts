@@ -6,6 +6,11 @@ import { getAllBrands } from '@/lib/api/brands'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
+  const cityPages = [
+    'ho-chi-minh', 'ha-noi', 'da-nang', 'can-tho',
+    'hai-phong', 'binh-duong', 'dong-nai',
+  ]
+
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
     {
@@ -32,6 +37,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.6,
     },
+    {
+      url: `${baseUrl}/gioi-thieu`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/tra-gop`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    ...cityPages.map((city) => ({
+      url: `${baseUrl}/mua-xe-o-to/${city}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    })),
   ]
 
   // Dynamic pages - wrap in try/catch to handle API failures

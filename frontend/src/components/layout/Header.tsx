@@ -1,5 +1,3 @@
-'use client'
-
 import Link from 'next/link'
 import { Container } from './Container'
 import { MainNav } from './MainNav'
@@ -14,10 +12,16 @@ export function Header() {
       <Container>
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-bold text-primary">
-              {siteConfig.name}
-            </span>
+          <Link href="/" className="flex items-center" aria-label={`${siteConfig.name} - Trang chủ`}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo.svg"
+              alt={siteConfig.name}
+              width={150}
+              height={37}
+              className="h-9 w-auto"
+              fetchPriority="high"
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -25,12 +29,12 @@ export function Header() {
 
           {/* Call Button */}
           <div className="flex items-center gap-4">
-            <a href={`tel:${siteConfig.contact.phone}`}>
-              <Button size="sm" className="hidden md:flex">
+            <Button size="sm" className="hidden md:flex" asChild>
+              <a href={`tel:${siteConfig.contact.phone}`}>
                 <Phone className="mr-2 h-4 w-4" />
                 {siteConfig.contact.phone}
-              </Button>
-            </a>
+              </a>
+            </Button>
 
             {/* Mobile Menu */}
             <MobileNav />

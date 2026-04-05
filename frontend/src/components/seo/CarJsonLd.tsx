@@ -1,5 +1,5 @@
 import { Car } from '@/types/car'
-import { getStrapiImageUrl } from '@/lib/strapi'
+import { getStrapiImageUrl, extractRelation } from '@/lib/strapi'
 import { siteConfig } from '@/config/site'
 
 interface CarJsonLdProps {
@@ -8,14 +8,19 @@ interface CarJsonLdProps {
 
 export function CarJsonLd({ car }: CarJsonLdProps) {
   const imageUrl = getStrapiImageUrl(car.mainImage)
-  const brandName = car.brand?.data?.attributes?.name || 'Unknown'
+  const brand = extractRelation(car.brand)
+  const brandName = brand?.name || 'Unknown'
   const currentPrice = car.pricePromo || car.price
+
+  const siteUrl = siteConfig.url
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Car',
     name: car.name,
+    model: car.name,
     description: car.shortDescription,
+    url: `${siteUrl}/xe-o-to/${car.slug}`,
     image: imageUrl,
     brand: {
       '@type': 'Brand',
@@ -26,6 +31,7 @@ export function CarJsonLd({ car }: CarJsonLdProps) {
       name: brandName,
     },
     modelDate: car.year.toString(),
+    vehicleModelDate: car.year.toString(),
     vehicleTransmission: car.transmission,
     fuelType: car.fuelType,
     bodyType: car.category,
@@ -40,20 +46,29 @@ export function CarJsonLd({ car }: CarJsonLdProps) {
             ? 'https://schema.org/SoldOut'
             : 'https://schema.org/PreOrder',
       seller: {
-        '@type': 'Organization',
+        '@type': 'AutoDealer',
         name: siteConfig.company.name,
         telephone: siteConfig.contact.phone,
+        url: siteUrl,
         address: {
           '@type': 'PostalAddress',
           streetAddress: siteConfig.contact.address,
+          addressCountry: 'VN',
         },
       },
     },
     ...(car.specs?.seats && { seatingCapacity: car.specs.seats }),
+    ...(car.specs?.engine && {
+      vehicleEngine: {
+        '@type': 'EngineSpecification',
+        name: car.specs.engine,
+      },
+    }),
     ...(car.specs?.fuelConsumption && {
       fuelConsumption: {
         '@type': 'QuantitativeValue',
         value: car.specs.fuelConsumption,
+        unitText: 'L/100km',
       },
     }),
   }

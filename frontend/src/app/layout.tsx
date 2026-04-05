@@ -1,18 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, Roboto } from "next/font/google";
-import { Toaster } from "@/components/ui/sonner";
-import { ThemeProvider } from "@/providers/theme-provider";
-import { QueryProvider } from "@/providers/query-provider";
-import {
-  FloatingPhone,
-  ZaloButton,
-  StickyContactModal,
-  ExitIntent,
-  MobileBottomBar,
-} from "@/components/widgets";
+import { Inter } from "next/font/google";
+import { LazyWidgets } from "@/components/widgets/LazyWidgets";
 import { GoogleAnalytics } from "@/components/analytics";
 import { OrganizationJsonLd } from "@/components/seo";
 import { SkipToContent } from "@/components/common";
+import { defaultSEO } from "@/config/seo";
 import "./globals.css";
 
 const inter = Inter({
@@ -21,70 +13,7 @@ const inter = Inter({
   display: "swap",
 });
 
-const roboto = Roboto({
-  variable: "--font-roboto",
-  weight: ["400", "500", "700"],
-  subsets: ["latin", "vietnamese"],
-  display: "swap",
-});
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-const siteName =
-  process.env.NEXT_PUBLIC_SITE_NAME || "Your Car Showroom";
-
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: siteName,
-    template: `%s | ${siteName}`,
-  },
-  description:
-    "Chuyên mua bán xe ô tô chính hãng. Tư vấn, hỗ trợ trả góp, bảo hành chính hãng. Liên hệ ngay để được tư vấn tốt nhất!",
-  keywords: [
-    "mua xe",
-    "bán xe",
-    "xe hơi",
-    "ô tô",
-    "xe ô tô",
-    "showroom xe",
-    "xe chính hãng",
-    "trả góp xe",
-  ],
-  authors: [{ name: siteName }],
-  creator: siteName,
-  publisher: siteName,
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    locale: "vi_VN",
-    url: siteUrl,
-    siteName: siteName,
-    title: siteName,
-    description:
-      "Chuyên mua bán xe ô tô chính hãng. Tư vấn, hỗ trợ trả góp, bảo hành chính hãng.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: siteName,
-    description:
-      "Chuyên mua bán xe ô tô chính hãng. Tư vấn, hỗ trợ trả góp, bảo hành chính hãng.",
-  },
-};
+export const metadata: Metadata = defaultSEO;
 
 export default function RootLayout({
   children,
@@ -94,32 +23,20 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.svg" sizes="180x180" />
         <OrganizationJsonLd />
         <GoogleAnalytics />
       </head>
       <body
-        className={`${inter.variable} ${roboto.variable} font-sans antialiased`}
+        className={`${inter.variable} font-sans antialiased pb-14 md:pb-0`}
+        suppressHydrationWarning
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <QueryProvider>
-            <SkipToContent />
-            {children}
+        <SkipToContent />
+        {children}
 
-            {/* Floating Widgets */}
-            <FloatingPhone />
-            <ZaloButton />
-            <StickyContactModal />
-            <ExitIntent />
-            <MobileBottomBar />
-
-            <Toaster />
-          </QueryProvider>
-        </ThemeProvider>
+        {/* All client-only widgets (ssr:false) */}
+        <LazyWidgets />
       </body>
     </html>
   );

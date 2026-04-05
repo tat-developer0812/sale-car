@@ -37,14 +37,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
     const imageUrl = getStrapiImageUrl(post.featuredImage)
 
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+
     return {
       title: post.seo?.metaTitle || post.title,
       description: post.seo?.metaDescription || post.excerpt,
       keywords: post.seo?.keywords,
+      alternates: {
+        canonical: `${siteUrl}/tin-tuc/${slug}`,
+      },
       openGraph: {
         title: post.title,
         description: post.excerpt,
         type: 'article',
+        url: `${siteUrl}/tin-tuc/${slug}`,
         publishedTime: post.publishedAt,
         modifiedTime: post.updatedAt,
         authors: [post.author || 'Admin'],
@@ -113,7 +119,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
           />
 
           <div className="mt-8">
-            <PostContent post={post} />
+            <PostContent post={post} postUrl={`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/tin-tuc/${post.slug}`} />
           </div>
 
           {/* Related Cars Section */}

@@ -7,19 +7,17 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: '/',
+        allow: ['/', '/mua-xe-o-to/', '/xe-o-to/', '/tin-tuc/', '/tra-gop/', '/gioi-thieu/'],
         disallow: [
           '/api/',
           '/admin/',
           '/_next/',
-          '/test/',
-          '/test-api/',
         ],
       },
       {
         userAgent: 'Googlebot',
         allow: '/',
-        disallow: ['/api/', '/admin/', '/test/', '/test-api/'],
+        disallow: ['/api/', '/admin/'],
       },
     ],
     sitemap: `${siteUrl}/sitemap.xml`,

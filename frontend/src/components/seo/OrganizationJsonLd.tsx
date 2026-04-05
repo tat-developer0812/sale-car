@@ -7,15 +7,19 @@ export function OrganizationJsonLd() {
     '@context': 'https://schema.org',
     '@type': 'AutoDealer',
     name: siteConfig.name,
+    alternateName: 'VuKia',
     url: siteUrl,
     logo: `${siteUrl}/logo.png`,
+    image: `${siteUrl}/og-image.jpg`,
+    description: siteConfig.description,
     telephone: siteConfig.contact.phone,
     email: siteConfig.contact.email,
     address: {
       '@type': 'PostalAddress',
       streetAddress: siteConfig.contact.address,
-      addressLocality: 'Hồ Chí Minh',
+      addressLocality: 'Gò Vấp',
       addressRegion: 'Hồ Chí Minh',
+      postalCode: '700000',
       addressCountry: 'VN',
     },
     geo: {
@@ -23,6 +27,12 @@ export function OrganizationJsonLd() {
       latitude: 10.7769,
       longitude: 106.7009,
     },
+    areaServed: [
+      { '@type': 'City', name: 'Hồ Chí Minh' },
+      { '@type': 'City', name: 'Hà Nội' },
+      { '@type': 'City', name: 'Đà Nẵng' },
+      { '@type': 'Country', name: 'Việt Nam' },
+    ],
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
@@ -40,10 +50,21 @@ export function OrganizationJsonLd() {
     sameAs: [
       siteConfig.links.facebook,
       siteConfig.links.youtube,
+      siteConfig.links.zalo,
     ].filter(Boolean),
     priceRange: '$$',
     currenciesAccepted: 'VND',
     paymentAccepted: 'Cash, Credit Card, Bank Transfer',
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Xe ô tô chính hãng tại VuKia',
+      itemListElement: [
+        { '@type': 'OfferCatalog', name: 'Xe Sedan' },
+        { '@type': 'OfferCatalog', name: 'Xe SUV' },
+        { '@type': 'OfferCatalog', name: 'Xe MPV' },
+        { '@type': 'OfferCatalog', name: 'Xe Điện' },
+      ],
+    },
   }
 
   return (

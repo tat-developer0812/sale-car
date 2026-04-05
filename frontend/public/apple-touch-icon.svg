@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180" role="img" aria-label="VuKia app icon">
+  <title>VuKia</title>
+
+  <!-- Rounded rectangle background in deep navy blue -->
+  <rect
+    x="0" y="0"
+    width="180" height="180"
+    rx="40" ry="40"
+    fill="#1e3a5f"
+  />
+
+  <!-- Subtle speed chevrons at bottom-right for automotive feel -->
+  <g opacity="0.15" aria-hidden="true">
+    <polygon points="100,130 125,100 133,100 108,130 133,160 125,160" fill="#ffffff"/>
+    <polygon points="115,130 140,100 148,100 123,130 148,160 140,160" fill="#ffffff"/>
+    <polygon points="130,130 155,100 163,100 138,130 163,160 155,160" fill="#ffffff"/>
+  </g>
+
+  <!-- Orange accent bar at the bottom -->
+  <rect x="30" y="148" width="120" height="8" rx="4" fill="#e8491d"/>
+
+  <!-- "VK" monogram centred, white -->
+  <text
+    x="90"
+    y="116"
+    font-family="'Arial Black', 'Arial', 'Helvetica Neue', sans-serif"
+    font-weight="800"
+    font-size="80"
+    fill="#ffffff"
+    text-anchor="middle"
+    dominant-baseline="auto"
+    letter-spacing="-4"
+  >VK</text>
+
+  <!-- Small "ia" sub-text in orange, lighter weight -->
+  <text
+    x="90"
+    y="144"
+    font-family="'Arial Black', 'Arial', 'Helvetica Neue', sans-serif"
+    font-weight="700"
+    font-size="22"
+    fill="#e8491d"
+    text-anchor="middle"
+    dominant-baseline="auto"
+    letter-spacing="6"
+  >VuKia</text>
+</svg>

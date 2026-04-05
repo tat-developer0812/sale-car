@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 
 interface PostContentProps {
   post: Post & { id: number }
+  postUrl?: string
 }
 
 const categoryLabels: Record<string, string> = {
@@ -20,7 +21,7 @@ const categoryLabels: Record<string, string> = {
   promotion: 'Khuyến mãi',
 }
 
-export function PostContent({ post }: PostContentProps) {
+export function PostContent({ post, postUrl = '' }: PostContentProps) {
   const imageUrl = getStrapiImageUrl(post.featuredImage)
 
   return (
@@ -87,7 +88,7 @@ export function PostContent({ post }: PostContentProps) {
 
       {/* Content */}
       <div
-        className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-bold prose-a:text-primary prose-img:rounded-lg"
+        className="prose prose-lg max-w-none prose-headings:font-bold prose-a:text-primary prose-img:rounded-lg"
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
 
@@ -116,7 +117,7 @@ export function PostContent({ post }: PostContentProps) {
           </span>
           <Button variant="outline" size="sm" asChild>
             <a
-              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -125,7 +126,7 @@ export function PostContent({ post }: PostContentProps) {
           </Button>
           <Button variant="outline" size="sm" asChild>
             <a
-              href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}&text=${encodeURIComponent(post.title)}`}
+              href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(postUrl)}&text=${encodeURIComponent(post.title)}`}
               target="_blank"
               rel="noopener noreferrer"
             >

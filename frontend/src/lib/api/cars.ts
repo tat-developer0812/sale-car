@@ -33,8 +33,14 @@ export async function getAllCars(params: GetCarsParams = {}) {
     'pagination[page]': page.toString(),
     'pagination[pageSize]': pageSize.toString(),
     sort,
-    'populate[brand][populate][0]': 'logo',
-    'populate[mainImage][populate][0]': '*',
+    'populate[brand][fields][0]': 'name',
+    'populate[brand][fields][1]': 'slug',
+    'populate[brand][populate][logo][fields][0]': 'url',
+    'populate[brand][populate][logo][fields][1]': 'alternativeText',
+    'populate[mainImage][fields][0]': 'url',
+    'populate[mainImage][fields][1]': 'alternativeText',
+    'populate[mainImage][fields][2]': 'width',
+    'populate[mainImage][fields][3]': 'height',
   })
 
   if (brand) {
@@ -78,13 +84,26 @@ export async function getAllCars(params: GetCarsParams = {}) {
 export async function getCarBySlug(slug: string) {
   const searchParams = new URLSearchParams({
     'filters[slug][$eq]': slug,
-    'populate[brand][populate][0]': 'logo',
-    'populate[mainImage][populate][0]': '*',
-    'populate[gallery][populate][0]': '*',
-    'populate[brochure][populate][0]': '*',
-    'populate[specs]': '*',
-    'populate[relatedCars][populate][brand]': '*',
-    'populate[relatedCars][populate][mainImage]': '*',
+    'populate[brand][fields][0]': 'name',
+    'populate[brand][fields][1]': 'slug',
+    'populate[brand][populate][logo][fields][0]': 'url',
+    'populate[brand][populate][logo][fields][1]': 'alternativeText',
+    'populate[mainImage][fields][0]': 'url',
+    'populate[mainImage][fields][1]': 'alternativeText',
+    'populate[mainImage][fields][2]': 'width',
+    'populate[mainImage][fields][3]': 'height',
+    'populate[gallery][fields][0]': 'url',
+    'populate[gallery][fields][1]': 'alternativeText',
+    'populate[gallery][fields][2]': 'width',
+    'populate[gallery][fields][3]': 'height',
+    'populate[brochure][fields][0]': 'url',
+    'populate[brochure][fields][1]': 'name',
+    'populate[specs]': 'true',
+    'populate[relatedCars][fields][0]': 'name',
+    'populate[relatedCars][fields][1]': 'slug',
+    'populate[relatedCars][fields][2]': 'price',
+    'populate[relatedCars][populate][brand][fields][0]': 'name',
+    'populate[relatedCars][populate][mainImage][fields][0]': 'url',
   })
 
   const response = await fetchAPI<StrapiResponse<StrapiData<Car>[]>>(
@@ -138,5 +157,13 @@ export async function getCarSlugs() {
     `/api/cars?${searchParams.toString()}`
   )
 
-  return response.data.map((item) => item.attributes.slug)
+  // Handle both Strapi v4 and v5 formats
+  return response.data.map((item) => {
+    // Strapi v5: slug is directly on item
+    if ('slug' in item && typeof item.slug === 'string') {
+      return item.slug
+    }
+    // Strapi v4: slug is in item.attributes
+    return item.attributes?.slug || ''
+  }).filter(Boolean)
 }

@@ -6,15 +6,32 @@ import { CarCard } from './CarCard'
 import { Button } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
+// Strapi v5 compatible type
+type RelatedCarsRelation = (Car & { id?: number })[] | { data: Array<{ id: number; attributes: Car }> | null } | null
+
 interface RelatedCarsProps {
-  cars?: { data: Array<{ id: number; attributes: Car }> | null }
+  cars?: RelatedCarsRelation
   title?: string
 }
 
 export function RelatedCars({ cars, title = 'Xe liên quan' }: RelatedCarsProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
 
-  if (!cars?.data || cars.data.length === 0) {
+  // Handle both v4 and v5 formats
+  let carsArray: (Car & { id: number })[] = []
+
+  if (cars) {
+    // Strapi v5 format: direct array
+    if (Array.isArray(cars)) {
+      carsArray = cars.map((car, index) => ({ ...car, id: car.id ?? index }))
+    }
+    // Strapi v4 format: nested data array
+    else if ('data' in cars && cars.data) {
+      carsArray = cars.data.map((item) => ({ ...item.attributes, id: item.id }))
+    }
+  }
+
+  if (carsArray.length === 0) {
     return null
   }
 
@@ -57,13 +74,13 @@ export function RelatedCars({ cars, title = 'Xe liên quan' }: RelatedCarsProps)
         className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
         style={{ scrollSnapType: 'x mandatory' }}
       >
-        {cars.data.map((item) => (
+        {carsArray.map((car) => (
           <div
-            key={item.id}
+            key={car.id}
             className="w-72 flex-shrink-0"
             style={{ scrollSnapAlign: 'start' }}
           >
-            <CarCard car={{ ...item.attributes, id: item.id }} />
+            <CarCard car={car} />
           </div>
         ))}
       </div>

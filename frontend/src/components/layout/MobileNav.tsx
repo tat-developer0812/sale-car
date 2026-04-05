@@ -55,11 +55,11 @@ export function MobileNav() {
           </nav>
 
           <div className="border-t pt-6">
-            <a href={`tel:${siteConfig.contact.phone}`}>
-              <Button className="w-full">
+            <Button className="w-full" asChild>
+              <a href={`tel:${siteConfig.contact.phone}`}>
                 Gọi ngay: {siteConfig.contact.phone}
-              </Button>
-            </a>
+              </a>
+            </Button>
           </div>
         </div>
       </SheetContent>

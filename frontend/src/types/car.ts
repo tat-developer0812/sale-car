@@ -29,10 +29,14 @@ export interface CarSpecs {
   other?: Record<string, unknown>
 }
 
+// Strapi v5 compatible types - relations can be either v4 or v5 format
+type StrapiRelation<T> = T | { data: { id: number; attributes: T } | null } | null
+type StrapiRelationArray<T> = T[] | { data: Array<{ id: number; attributes: T }> | null } | null
+
 export interface Car {
   name: string
   slug: string
-  brand: { data: { id: number; attributes: Brand } | null }
+  brand: StrapiRelation<Brand & { id?: number }>
   price: number
   pricePromo?: number
   year: number
@@ -45,10 +49,10 @@ export interface Car {
   fullDescription?: string
   features?: Record<string, unknown>
   colors?: Record<string, unknown>
-  mainImage: { data: { id: number; attributes: StrapiImage } | null }
-  gallery?: { data: Array<{ id: number; attributes: StrapiImage }> | null }
+  mainImage: StrapiRelation<StrapiImage>
+  gallery?: StrapiRelationArray<StrapiImage>
   video?: string
-  brochure?: { data: { id: number; attributes: StrapiImage } | null }
+  brochure?: StrapiRelation<StrapiImage>
   specs?: CarSpecs
   highlights?: string[]
   pros?: string[]
@@ -56,7 +60,7 @@ export interface Car {
   seo?: SEO
   views: number
   leadCount: number
-  relatedCars?: { data: Array<{ id: number; attributes: Car }> | null }
+  relatedCars?: StrapiRelationArray<Car & { id?: number }>
   createdAt: string
   updatedAt: string
   publishedAt: string

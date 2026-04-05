@@ -5,14 +5,58 @@ import Image from 'next/image'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { StrapiImage } from '@/types/strapi'
-import { getStrapiImageUrl } from '@/lib/strapi'
 import { ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
+// Strapi v5 compatible types
+type ImageRelation = StrapiImage | { data: { id: number; attributes: StrapiImage } | null } | null
+type GalleryRelation = StrapiImage[] | { data: Array<{ id: number; attributes: StrapiImage }> | null } | null
+
 interface CarGalleryProps {
-  mainImage: { data: { id: number; attributes: StrapiImage } | null }
-  gallery?: { data: Array<{ id: number; attributes: StrapiImage }> | null }
+  mainImage: ImageRelation
+  gallery?: GalleryRelation
   carName: string
+}
+
+// Helper to extract image data from v4 or v5 format
+function resolveUploadUrl(rawUrl: string): string {
+  // External URL (not localhost)
+  if (rawUrl.startsWith('http') && !rawUrl.includes('localhost') && !rawUrl.includes('127.0.0.1')) {
+    return rawUrl
+  }
+  // Strapi uploads -> use proxy
+  if (rawUrl.startsWith('/uploads/')) {
+    return `/strapi-uploads${rawUrl.replace('/uploads', '')}`
+  }
+  if (rawUrl.includes('/uploads/')) {
+    const uploadsPath = rawUrl.substring(rawUrl.indexOf('/uploads/') + '/uploads'.length)
+    return `/strapi-uploads${uploadsPath}`
+  }
+  return rawUrl
+}
+
+function extractImageData(image: ImageRelation, carName: string): { id: number; url: string; alt: string } | null {
+  if (!image) return null
+
+  // Strapi v5 format: direct image object
+  if ('url' in image && image.url) {
+    return {
+      id: image.id || 0,
+      url: resolveUploadUrl(image.url),
+      alt: image.alternativeText || carName,
+    }
+  }
+
+  // Strapi v4 format: nested data.attributes
+  if ('data' in image && image.data) {
+    return {
+      id: image.data.id,
+      url: resolveUploadUrl(image.data.attributes.url),
+      alt: image.data.attributes.alternativeText || carName,
+    }
+  }
+
+  return null
 }
 
 export function CarGallery({ mainImage, gallery, carName }: CarGalleryProps) {
@@ -22,28 +66,34 @@ export function CarGallery({ mainImage, gallery, carName }: CarGalleryProps) {
   // Combine main image with gallery
   const allImages: { id: number; url: string; alt: string }[] = []
 
-  if (mainImage?.data) {
-    const url = getStrapiImageUrl(mainImage)
-    if (url) {
-      allImages.push({
-        id: mainImage.data.id,
-        url,
-        alt: mainImage.data.attributes.alternativeText || carName,
-      })
-    }
+  // Handle main image
+  const mainImageData = extractImageData(mainImage, carName)
+  if (mainImageData) {
+    allImages.push(mainImageData)
   }
 
-  if (gallery?.data) {
-    gallery.data.forEach((img) => {
-      const url = img.attributes.url.startsWith('http')
-        ? img.attributes.url
-        : `${process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337'}${img.attributes.url}`
-      allImages.push({
-        id: img.id,
-        url,
-        alt: img.attributes.alternativeText || carName,
+  // Handle gallery - could be v4 or v5 format
+  if (gallery) {
+    // Strapi v5 format: direct array of images
+    if (Array.isArray(gallery)) {
+      gallery.forEach((img, index) => {
+        allImages.push({
+          id: img.id || index,
+          url: resolveUploadUrl(img.url),
+          alt: img.alternativeText || carName,
+        })
       })
-    })
+    }
+    // Strapi v4 format: nested data array
+    else if ('data' in gallery && gallery.data) {
+      gallery.data.forEach((img) => {
+        allImages.push({
+          id: img.id,
+          url: resolveUploadUrl(img.attributes.url),
+          alt: img.attributes.alternativeText || carName,
+        })
+      })
+    }
   }
 
   if (allImages.length === 0) {

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 44" width="180" height="44" role="img" aria-label="VuKia logo">
+  <title>VuKia</title>
+
+  <!-- Speed/road accent: abstract forward-motion chevron strip (white tones) -->
+  <g aria-hidden="true">
+    <!-- Chevron 1 (leftmost, most transparent) -->
+    <polygon points="4,22 11,14 14,14 7,22 14,30 11,30" fill="#ffffff" opacity="0.25"/>
+    <!-- Chevron 2 -->
+    <polygon points="10,22 17,14 20,14 13,22 20,30 17,30" fill="#ffffff" opacity="0.55"/>
+    <!-- Chevron 3 (rightmost, solid) -->
+    <polygon points="16,22 23,14 26,14 19,22 26,30 23,30" fill="#ffffff" opacity="1"/>
+  </g>
+
+  <!-- "Vu" in white -->
+  <text
+    x="34"
+    y="32"
+    font-family="'Arial Black', 'Arial', 'Helvetica Neue', sans-serif"
+    font-weight="800"
+    font-size="26"
+    fill="#ffffff"
+    letter-spacing="-0.5"
+  >Vu</text>
+
+  <!-- "Kia" in white -->
+  <text
+    x="82"
+    y="32"
+    font-family="'Arial Black', 'Arial', 'Helvetica Neue', sans-serif"
+    font-weight="800"
+    font-size="26"
+    fill="#ffffff"
+    letter-spacing="-0.5"
+  >Kia</text>
+
+  <!-- Underline accent bar: semi-transparent left, solid right -->
+  <rect x="34" y="36" width="48" height="2.5" rx="1.25" fill="#ffffff" opacity="0.6"/>
+  <rect x="82" y="36" width="64" height="2.5" rx="1.25" fill="#ffffff"/>
+</svg>

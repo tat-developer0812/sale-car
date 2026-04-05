@@ -91,3 +91,31 @@ export const trackFilterApply = (filterType: string, filterValue: string) => {
     label: `${filterType}: ${filterValue}`,
   })
 }
+
+// Google Ads conversion tracking
+export const trackConversion = (conversionLabel: string, value?: number) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', 'conversion', {
+      send_to: conversionLabel,
+      value: value,
+      currency: 'VND',
+    })
+  }
+}
+
+export const trackGenerateLead = (formType: string, carName?: string) => {
+  event({
+    action: 'generate_lead',
+    category: 'Lead',
+    label: `${formType}${carName ? ` - ${carName}` : ''}`,
+  })
+}
+
+export const trackBeginCheckout = (carName: string, price: number) => {
+  event({
+    action: 'begin_checkout',
+    category: 'Car',
+    label: carName,
+    value: price,
+  })
+}

@@ -37,7 +37,7 @@ export function CarFeatures({
           </CardHeader>
           <CardContent>
             <div
-              className="prose prose-sm max-w-none dark:prose-invert"
+              className="prose prose-sm max-w-none"
               dangerouslySetInnerHTML={{ __html: fullDescription }}
             />
           </CardContent>
@@ -69,9 +69,9 @@ export function CarFeatures({
       {(hasPros || hasCons) && (
         <div className="grid gap-6 md:grid-cols-2">
           {hasPros && (
-            <Card className="border-green-200 dark:border-green-900">
+            <Card className="border-green-200">
               <CardHeader className="pb-3">
-                <CardTitle className="flex items-center gap-2 text-green-600 dark:text-green-400">
+                <CardTitle className="flex items-center gap-2 text-green-600">
                   <ThumbsUp className="h-5 w-5" />
                   Ưu điểm
                 </CardTitle>
@@ -90,9 +90,9 @@ export function CarFeatures({
           )}
 
           {hasCons && (
-            <Card className="border-red-200 dark:border-red-900">
+            <Card className="border-red-200">
               <CardHeader className="pb-3">
-                <CardTitle className="flex items-center gap-2 text-red-600 dark:text-red-400">
+                <CardTitle className="flex items-center gap-2 text-red-600">
                   <ThumbsDown className="h-5 w-5" />
                   Nhược điểm
                 </CardTitle>

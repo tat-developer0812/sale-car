@@ -16,7 +16,10 @@ export async function getAllPosts(params: GetPostsParams = {}) {
     'pagination[page]': page.toString(),
     'pagination[pageSize]': pageSize.toString(),
     sort,
-    'populate[featuredImage][populate][0]': '*',
+    'populate[featuredImage][fields][0]': 'url',
+    'populate[featuredImage][fields][1]': 'alternativeText',
+    'populate[featuredImage][fields][2]': 'width',
+    'populate[featuredImage][fields][3]': 'height',
   })
 
   if (category) {
@@ -36,9 +39,14 @@ export async function getAllPosts(params: GetPostsParams = {}) {
 export async function getPostBySlug(slug: string) {
   const searchParams = new URLSearchParams({
     'filters[slug][$eq]': slug,
-    'populate[featuredImage][populate][0]': '*',
-    'populate[relatedCars][populate][brand]': '*',
-    'populate[relatedCars][populate][mainImage]': '*',
+    'populate[featuredImage][fields][0]': 'url',
+    'populate[featuredImage][fields][1]': 'alternativeText',
+    'populate[featuredImage][fields][2]': 'width',
+    'populate[featuredImage][fields][3]': 'height',
+    'populate[relatedCars][fields][0]': 'name',
+    'populate[relatedCars][fields][1]': 'slug',
+    'populate[relatedCars][populate][brand][fields][0]': 'name',
+    'populate[relatedCars][populate][mainImage][fields][0]': 'url',
   })
 
   const response = await fetchAPI<StrapiResponse<StrapiData<Post>[]>>(
@@ -76,5 +84,8 @@ export async function getPostSlugs() {
     `/api/posts?${searchParams.toString()}`
   )
 
-  return response.data.map((item) => item.attributes.slug)
+  return response.data.map((item) => {
+    if ('slug' in item && typeof item.slug === 'string') return item.slug
+    return (item as { attributes?: { slug: string } }).attributes?.slug || ''
+  }).filter(Boolean)
 }

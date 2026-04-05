@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { testDriveSchema, TestDriveInput } from '@/lib/validations'
@@ -83,12 +83,11 @@ export function TestDriveForm({ carId, carName, onSuccess }: TestDriveFormProps)
     }
   }
 
-  // Get minimum date (tomorrow)
-  const getMinDate = () => {
+  const minDate = useMemo(() => {
     const tomorrow = new Date()
     tomorrow.setDate(tomorrow.getDate() + 1)
     return tomorrow.toISOString().split('T')[0]
-  }
+  }, [])
 
   return (
     <Card>
@@ -162,7 +161,7 @@ export function TestDriveForm({ carId, carName, onSuccess }: TestDriveFormProps)
                     <FormControl>
                       <Input
                         type="date"
-                        min={getMinDate()}
+                        min={minDate}
                         {...field}
                       />
                     </FormControl>

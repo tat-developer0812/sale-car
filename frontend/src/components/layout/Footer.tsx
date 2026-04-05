@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui/separator'
 import { Mail, MapPin, Phone, Clock } from 'lucide-react'
 
 export function Footer() {
-  const currentYear = new Date().getFullYear()
+  const currentYear = 2026
 
   return (
     <footer className="border-t bg-muted/50">
@@ -14,7 +14,16 @@ export function Footer() {
         <div className="grid gap-8 py-10 md:grid-cols-2 lg:grid-cols-4">
           {/* Company Info */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold">{siteConfig.name}</h3>
+            <Link href="/" className="mb-4 inline-block" aria-label={`${siteConfig.name} - Trang chủ`}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo.svg"
+                alt={siteConfig.name}
+                width={150}
+                height={37}
+                className="h-9 w-auto"
+              />
+            </Link>
             <p className="text-sm text-muted-foreground">
               {siteConfig.description}
             </p>
