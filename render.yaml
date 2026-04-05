@@ -33,9 +33,9 @@ services:
       - key: UPLOAD_PROVIDER
         value: cloudinary
       - key: CLOUDINARY_NAME
-        sync: false
+        value: tatdevweb
       - key: CLOUDINARY_KEY
-        sync: false
+        value: "142823899849367"
       - key: CLOUDINARY_SECRET
         sync: false
 
