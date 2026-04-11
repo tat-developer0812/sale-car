@@ -29,13 +29,14 @@ async function CarListContent({ searchParams }: { searchParams: { [key: string]:
   const transmission = searchParams.transmission
   const minPrice = searchParams.minPrice ? Number(searchParams.minPrice) : undefined
   const maxPrice = searchParams.maxPrice ? Number(searchParams.maxPrice) : undefined
+  const search = searchParams.search
 
   let cars: Awaited<ReturnType<typeof getAllCars>> = { data: [], pagination: undefined }
   let brands: Awaited<ReturnType<typeof getAllBrands>> = []
 
   try {
     ;[cars, brands] = await Promise.all([
-      getAllCars({ page, brand, category, fuelType, transmission, minPrice, maxPrice }),
+      getAllCars({ page, brand, category, fuelType, transmission, minPrice, maxPrice, search }),
       getAllBrands(),
     ])
   } catch (error) {
@@ -90,9 +91,15 @@ export default async function CarsPage({ searchParams }: PageProps) {
 
           <div className="mt-6">
             <h1 className="text-3xl font-bold">Xe Ô Tô</h1>
-            <p className="mt-2 text-muted-foreground">
-              Khám phá bộ sưu tập xe ô tô đa dạng từ các thương hiệu hàng đầu
-            </p>
+            {params.search ? (
+              <p className="mt-1 text-muted-foreground">
+                Kết quả tìm kiếm cho: <span className="font-medium text-foreground">"{params.search}"</span>
+              </p>
+            ) : (
+              <p className="mt-2 text-muted-foreground">
+                Khám phá bộ sưu tập xe ô tô đa dạng từ các thương hiệu hàng đầu
+              </p>
+            )}
           </div>
 
           <div className="mt-8">

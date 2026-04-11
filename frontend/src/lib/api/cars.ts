@@ -13,6 +13,7 @@ export interface GetCarsParams {
   maxPrice?: number
   status?: string
   sort?: string
+  search?: string
 }
 
 export async function getAllCars(params: GetCarsParams = {}) {
@@ -27,6 +28,7 @@ export async function getAllCars(params: GetCarsParams = {}) {
     maxPrice,
     status,
     sort = 'createdAt:desc',
+    search,
   } = params
 
   const searchParams = new URLSearchParams({
@@ -69,6 +71,11 @@ export async function getAllCars(params: GetCarsParams = {}) {
 
   if (maxPrice) {
     searchParams.append('filters[price][$lte]', maxPrice.toString())
+  }
+
+  if (search) {
+    searchParams.append('filters[$or][0][name][$containsi]', search)
+    searchParams.append('filters[$or][1][shortDescription][$containsi]', search)
   }
 
   const response = await fetchAPI<StrapiResponse<StrapiData<Car>[]>>(

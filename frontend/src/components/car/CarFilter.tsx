@@ -80,7 +80,10 @@ export function CarFilter({ brands }: CarFilterProps) {
   }
 
   const clearFilters = () => {
-    router.push('?')
+    const params = new URLSearchParams()
+    const search = searchParams.get('search')
+    if (search) params.set('search', search)
+    router.push(`?${params.toString()}`)
   }
 
   const handlePriceRange = (rangeIndex: string) => {
