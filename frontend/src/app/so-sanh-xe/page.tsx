@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { getCarBySlug } from '@/lib/api/cars'
 import { formatPrice } from '@/lib/format'
-import { extractRelation } from '@/lib/strapi'
+import { extractRelation, getStrapiImageUrl } from '@/lib/strapi'
 import { siteConfig } from '@/config/site'
 import { Phone } from 'lucide-react'
 
@@ -73,14 +73,14 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   <tr>
                     <th className="w-40 border-b p-3 text-left font-medium text-muted-foreground" />
                     {validCars.map((car) => {
-                      const mainImg = extractRelation(car.mainImage)
+                      const imgUrl = getStrapiImageUrl(car.mainImage)
                       return (
                         <th key={car.slug} className="border-b p-3 text-left">
                           <Link href={`/xe-o-to/${car.slug}`} className="group block">
-                            {mainImg?.url && (
+                            {imgUrl && (
                               <div className="relative mb-2 aspect-[4/3] w-full overflow-hidden rounded-lg">
                                 <Image
-                                  src={mainImg.url}
+                                  src={imgUrl}
                                   alt={car.name}
                                   fill
                                   className="object-cover transition-transform group-hover:scale-105"
