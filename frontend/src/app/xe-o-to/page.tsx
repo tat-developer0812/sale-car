@@ -30,13 +30,14 @@ async function CarListContent({ searchParams }: { searchParams: { [key: string]:
   const minPrice = searchParams.minPrice ? Number(searchParams.minPrice) : undefined
   const maxPrice = searchParams.maxPrice ? Number(searchParams.maxPrice) : undefined
   const search = searchParams.search
+  const sort = searchParams.sort || 'createdAt:desc'
 
   let cars: Awaited<ReturnType<typeof getAllCars>> = { data: [], pagination: undefined }
   let brands: Awaited<ReturnType<typeof getAllBrands>> = []
 
   try {
     ;[cars, brands] = await Promise.all([
-      getAllCars({ page, brand, category, fuelType, transmission, minPrice, maxPrice, search }),
+      getAllCars({ page, brand, category, fuelType, transmission, minPrice, maxPrice, search, sort }),
       getAllBrands(),
     ])
   } catch (error) {

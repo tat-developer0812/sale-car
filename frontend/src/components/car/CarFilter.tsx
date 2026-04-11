@@ -41,6 +41,13 @@ const transmissionLabels: Record<string, string> = {
   cvt: 'CVT',
 }
 
+const sortOptions = [
+  { label: 'Mới nhất', value: 'createdAt:desc' },
+  { label: 'Giá tăng dần', value: 'price:asc' },
+  { label: 'Giá giảm dần', value: 'price:desc' },
+  { label: 'Nhiều lượt xem nhất', value: 'views:desc' },
+]
+
 const priceRanges = [
   { label: 'Dưới 500 triệu', min: 0, max: 500000000 },
   { label: '500 triệu - 1 tỷ', min: 500000000, max: 1000000000 },
@@ -53,6 +60,7 @@ export function CarFilter({ brands }: CarFilterProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
+  const currentSort = searchParams.get('sort') || 'createdAt:desc'
   const currentBrand = searchParams.get('brand') || 'all'
   const currentCategory = searchParams.get('category') || 'all'
   const currentFuelType = searchParams.get('fuelType') || 'all'
@@ -141,6 +149,25 @@ export function CarFilter({ brands }: CarFilterProps) {
       </div>
 
       <div className={`${mobileOpen ? 'block' : 'hidden'} lg:block`}>
+      <Separator className="my-4" />
+
+      {/* Sort */}
+      <div className="space-y-2">
+        <Label>Sắp xếp</Label>
+        <Select value={currentSort} onValueChange={(v) => updateFilter('sort', v)}>
+          <SelectTrigger>
+            <SelectValue placeholder="Mới nhất" />
+          </SelectTrigger>
+          <SelectContent>
+            {sortOptions.map((opt) => (
+              <SelectItem key={opt.value} value={opt.value}>
+                {opt.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
       <Separator className="my-4" />
 
       {/* Brand Filter */}
