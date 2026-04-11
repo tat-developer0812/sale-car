@@ -7,21 +7,14 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { PostContent } from '@/components/blog/PostContent'
 import { RelatedPosts } from '@/components/blog/RelatedPosts'
 import { ArticleJsonLd } from '@/components/seo/ArticleJsonLd'
-import { getPostBySlug, getPostSlugs, getPostsByCategory } from '@/lib/api/posts'
+import { getPostBySlug, getPostsByCategory } from '@/lib/api/posts'
 import { getStrapiImageUrl } from '@/lib/strapi'
 
 interface PageProps {
   params: Promise<{ slug: string }>
 }
 
-export async function generateStaticParams() {
-  try {
-    const slugs = await getPostSlugs()
-    return slugs.map((slug) => ({ slug }))
-  } catch {
-    return []
-  }
-}
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params

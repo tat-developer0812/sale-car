@@ -11,7 +11,7 @@ import { CarPricing } from '@/components/car/CarPricing'
 import { RelatedCars } from '@/components/car/RelatedCars'
 import { QuickContact } from '@/components/forms/QuickContact'
 import { CarJsonLd } from '@/components/seo/CarJsonLd'
-import { getCarBySlug, getCarSlugs } from '@/lib/api/cars'
+import { getCarBySlug } from '@/lib/api/cars'
 import { formatPrice } from '@/lib/format'
 import { extractRelation } from '@/lib/strapi'
 
@@ -19,14 +19,7 @@ interface PageProps {
   params: Promise<{ slug: string }>
 }
 
-export async function generateStaticParams() {
-  try {
-    const slugs = await getCarSlugs()
-    return slugs.map((slug) => ({ slug }))
-  } catch {
-    return []
-  }
-}
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
