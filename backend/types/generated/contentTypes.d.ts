@@ -498,8 +498,8 @@ export interface ApiCarCar extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     mainImage: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
     name: Schema.Attribute.String & Schema.Attribute.Required;
-    price: Schema.Attribute.Decimal & Schema.Attribute.Required;
-    pricePromo: Schema.Attribute.Decimal;
+    price: Schema.Attribute.BigInteger & Schema.Attribute.Required;
+    pricePromo: Schema.Attribute.BigInteger;
     pros: Schema.Attribute.JSON;
     publishedAt: Schema.Attribute.DateTime;
     relatedCars: Schema.Attribute.Relation<'manyToMany', 'api::car.car'>;
