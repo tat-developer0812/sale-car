@@ -27,6 +27,10 @@ const Toaster = dynamic(
   () => import('@/components/ui/sonner').then((m) => m.Toaster),
   { ssr: false }
 )
+const CompareBar = dynamic(
+  () => import('@/components/car/CompareBar').then((m) => m.CompareBar),
+  { ssr: false }
+)
 
 export function LazyWidgets() {
   return (
@@ -37,6 +41,7 @@ export function LazyWidgets() {
       <StickyContactModal />
       <ExitIntent />
       <Toaster />
+      <CompareBar />
     </>
   )
 }

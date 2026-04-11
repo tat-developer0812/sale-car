@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { formatPrice } from '@/lib/format'
 import { getStrapiImageUrl } from '@/lib/strapi'
 import { Fuel, Settings, Calendar } from 'lucide-react'
+import { CompareButton } from './CompareButton'
 
 interface CarCardProps {
   car: Car & { id: number }
@@ -98,10 +99,11 @@ export function CarCard({ car }: CarCardProps) {
         </div>
       </CardContent>
 
-      <CardFooter className="p-4 pt-0">
+      <CardFooter className="flex-col gap-2 p-4 pt-0">
         <Button asChild className="w-full">
           <Link href={`/xe-o-to/${car.slug}`}>Xem chi tiết</Link>
         </Button>
+        <CompareButton slug={car.slug} name={car.name} />
       </CardFooter>
     </Card>
   )
