@@ -47,9 +47,11 @@ const statusLabels: Record<string, { label: string; variant: 'default' | 'second
 }
 
 export function CarPricing({ car }: CarPricingProps) {
-  const hasPromo = car.pricePromo && car.pricePromo < car.price
-  const currentPrice = hasPromo ? car.pricePromo! : car.price
-  const savings = hasPromo ? car.price - car.pricePromo! : 0
+  const price = Number(car.price)
+  const pricePromo = car.pricePromo ? Number(car.pricePromo) : undefined
+  const hasPromo = pricePromo && pricePromo < price
+  const currentPrice = hasPromo ? pricePromo : price
+  const savings = hasPromo ? price - pricePromo : 0
   const status = statusLabels[car.status] || statusLabels.available
 
   return (

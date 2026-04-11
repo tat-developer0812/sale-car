@@ -33,8 +33,10 @@ const statusLabels: Record<string, { label: string; variant: 'default' | 'second
 
 export function CarCard({ car }: CarCardProps) {
   const imageUrl = getStrapiImageUrl(car.mainImage)
-  const hasPromo = car.pricePromo && car.pricePromo < car.price
-  const currentPrice = hasPromo ? car.pricePromo! : car.price
+  const price = Number(car.price)
+  const pricePromo = car.pricePromo ? Number(car.pricePromo) : undefined
+  const hasPromo = pricePromo && pricePromo < price
+  const currentPrice = hasPromo ? pricePromo : price
   const status = statusLabels[car.status] || statusLabels.available
 
   return (
