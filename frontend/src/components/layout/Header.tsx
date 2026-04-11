@@ -5,6 +5,7 @@ import { MobileNav } from './MobileNav'
 import { Button } from '@/components/ui/button'
 import { Phone } from 'lucide-react'
 import { siteConfig } from '@/config/site'
+import { ThemeToggle } from '@/components/common/ThemeToggle'
 
 export function Header() {
   return (
@@ -29,6 +30,7 @@ export function Header() {
 
           {/* Call Button */}
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <Button size="sm" className="hidden md:flex" asChild>
               <a href={`tel:${siteConfig.contact.phone}`}>
                 <Phone className="mr-2 h-4 w-4" />

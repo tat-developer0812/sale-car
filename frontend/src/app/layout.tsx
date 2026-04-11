@@ -4,6 +4,7 @@ import { LazyWidgets } from "@/components/widgets/LazyWidgets";
 import { GoogleAnalytics } from "@/components/analytics";
 import { OrganizationJsonLd } from "@/components/seo";
 import { SkipToContent } from "@/components/common";
+import { ThemeProvider } from "@/providers/theme-provider";
 import { defaultSEO } from "@/config/seo";
 import "./globals.css";
 
@@ -32,11 +33,13 @@ export default function RootLayout({
         className={`${inter.variable} font-sans antialiased pb-14 md:pb-0`}
         suppressHydrationWarning
       >
-        <SkipToContent />
-        {children}
+        <ThemeProvider>
+          <SkipToContent />
+          {children}
 
-        {/* All client-only widgets (ssr:false) */}
-        <LazyWidgets />
+          {/* All client-only widgets (ssr:false) */}
+          <LazyWidgets />
+        </ThemeProvider>
       </body>
     </html>
   );
