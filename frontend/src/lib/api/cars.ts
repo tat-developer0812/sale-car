@@ -73,9 +73,9 @@ export async function getAllCars(params: GetCarsParams = {}) {
     searchParams.append('filters[price][$lte]', maxPrice.toString())
   }
 
-  if (search) {
-    searchParams.append('filters[$or][0][name][$containsi]', search)
-    searchParams.append('filters[$or][1][shortDescription][$containsi]', search)
+  if (search?.trim()) {
+    searchParams.append('filters[$or][0][name][$containsi]', search.trim())
+    searchParams.append('filters[$or][1][shortDescription][$containsi]', search.trim())
   }
 
   const response = await fetchAPI<StrapiResponse<StrapiData<Car>[]>>(
