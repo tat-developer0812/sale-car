@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { getCarBySlug } from '@/lib/api/cars'
 import { formatPrice } from '@/lib/format'
-import { extractRelation, getStrapiImageUrl } from '@/lib/strapi'
+import { getStrapiImageUrl } from '@/lib/strapi'
 import { siteConfig } from '@/config/site'
 import { Phone } from 'lucide-react'
 

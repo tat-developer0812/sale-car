@@ -6,6 +6,8 @@ import { OrganizationJsonLd } from "@/components/seo";
 import { SkipToContent } from "@/components/common";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { defaultSEO } from "@/config/seo";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const inter = Inter({
@@ -40,6 +42,8 @@ export default function RootLayout({
           {/* All client-only widgets (ssr:false) */}
           <LazyWidgets />
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
