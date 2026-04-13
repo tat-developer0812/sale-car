@@ -1,6 +1,10 @@
 import { formatPrice, formatDate, formatNumber, generateSlug } from '@/lib/format'
 
 describe('formatPrice', () => {
+  it('[TEST EMAIL] intentional fail — will revert', () => {
+    expect(1 + 1).toBe(999)
+  })
+
   it('formats millions with dot separators and ₫ symbol', () => {
     expect(formatPrice(1500000)).toBe('1.500.000 ₫')
   })
